@@ -17,6 +17,10 @@
     "json",
     "objectFromInterface"
   ],
-  "author": "",
-  "license": "ISC"
+  "author": "Tom Manger",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tommanger/parse-interface"
+  }
 }
