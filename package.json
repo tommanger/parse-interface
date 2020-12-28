@@ -4,7 +4,7 @@
   "description": "Parse interface to json",
   "main": "./lib/parseInterface.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test/**/*.js --exit --timeout=20000 --forbid-only"
   },
   "keywords": [
     "interface",
@@ -22,5 +22,11 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/tommanger/parse-interface"
+  },
+  "devDependencies": {
+    "chai": "4.2.0",
+    "sinon-chai": "^3.5.0",
+    "@types/mocha": "^8.0.3",
+    "mocha": "7.1.1"
   }
 }
