@@ -1,0 +1,22 @@
+{
+  "name": "parse-interface",
+  "version": "1.0.0",
+  "description": "Parse interface to json",
+  "main": "./lib/parseInterface.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "interface",
+    "parse",
+    "parse-interface",
+    "parseInterface",
+    "interfaceToJson",
+    "typescriptToJson",
+    "interface-json",
+    "json",
+    "objectFromInterface"
+  ],
+  "author": "",
+  "license": "ISC"
+}
