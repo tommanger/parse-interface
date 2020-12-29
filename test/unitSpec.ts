@@ -41,4 +41,24 @@ describe('Parse interface', () => {
         parsed[0].obj.details.age.should.be.eq(0);
     });
 
+    it.only("Should parse and get array in obj", () => {
+
+        const interfaceToParse = `
+        export default interface ITest {
+            names: string[];
+            dates: number[];
+            children: {
+                name: string;
+            }[];
+        }`
+
+        const parsed = parseInterface(interfaceToParse);
+
+        parsed[0].obj.names.should.be.instanceof(Array);
+        parsed[0].obj.dates.should.be.instanceof(Array);
+        parsed[0].obj.children.should.be.instanceof(Array);
+        parsed[0].obj.children[0].name.should.be.eq("");
+
+    });
+
 });

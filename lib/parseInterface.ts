@@ -1,4 +1,4 @@
-export function parseInterface(interfaceToParse: string): {name: string, obj: {[index: string]: any}, unknown: {key: string, type: string}[]}[] {
+export function parseInterface(interfaceToParse: string): { name: string, obj: { [index: string]: any }, unknown: { key: string, type: string }[] }[] {
     const splited = interfaceToParse.split("interface");
     let jsons = [];
     splited.forEach((row) => {
@@ -10,6 +10,9 @@ export function parseInterface(interfaceToParse: string): {name: string, obj: {[
         for (let field of splitedRow) {
             let [key, type] = field.split(":");
             if ((key && key.includes("}")) || (type && type.includes("}"))) {
+                if (key.includes("}[]")) {
+                    obj[objKey] = [obj[objKey]];
+                }
                 fieldIsObj = false;
                 objKey = "";
                 continue;
@@ -49,6 +52,12 @@ export function parseInterface(interfaceToParse: string): {name: string, obj: {[
                 case "Partial<CSSStyleDeclaration>;":
                 case "CSSStyleDeclaration":
                     value = {};
+                    break;
+                case "string[]":
+                case "string[];":
+                case "number[]":
+                case "number[];":
+                    value = [];
                     break;
             }
 
