@@ -7,6 +7,27 @@ chai.use(sinonChai);
 
 describe('Parse interface', () => {
 
+    it("Should parse", () => {
+
+        const interfaceToParse: string = `
+            export default interface ITest {
+                name: string;
+                date: number;
+                age: number | string;
+                color: "red" | "blue",
+                details: {
+                    address: string | number;
+                },
+                dates: number[];
+                children: {
+                    name: string;
+                }[];
+            }`
+        const parsed: any = parseInterface(interfaceToParse);
+        parsed.should.be.instanceof(Array);
+        parsed[0].obj.should.be.instanceof(Object);
+    });
+
     it("Should parse and get string in obj", () => {
 
         const interfaceToParse = `
@@ -41,7 +62,7 @@ describe('Parse interface', () => {
         parsed[0].obj.details.age.should.be.eq(0);
     });
 
-    it.only("Should parse and get array in obj", () => {
+    it("Should parse and get array in obj", () => {
 
         const interfaceToParse = `
         export default interface ITest {

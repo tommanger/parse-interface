@@ -11,25 +11,35 @@ export default interface ITest {
     color: "red" | "blue",
     details: {
         address: string | number;
-    }
+    },
+     dates: number[];
+     children: {
+        name: string;
+     }[];
 }`
 
 const parseResult = parseInterface(interfaceToParse);
 console.log(parseResult);
 
 /* output: [
-    {
-        "obj": {
-            "name": "",
-            "date": 0,
-            "age": 0,
-            "color": "red",
-            "details": {
-                "address": ""
-            }
-        },
-        "name": "ITest",
-        "unknown": []
-    }
+  {
+    "obj": {
+      "name": "",
+      "date": 0,
+      "age": 0,
+      "color": "red",
+      "details": {
+        "address": ""
+      },
+      "dates": [],
+      "children": [
+        {
+          "name": ""
+        }
+      ]
+    },
+    "name": "ITest",
+    "unknown": []
+  }
 ] */
 ```
