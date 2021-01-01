@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const chai = require("chai");
 const sinonChai = require("sinon-chai");
-const parseInterface_1 = require("../lib/parseInterface");
+const parseInterface_1 = require("../parseInterface");
 let should = chai.should();
 chai.use(sinonChai);
 describe('Parse interface', () => {

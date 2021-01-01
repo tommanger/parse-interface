@@ -1,30 +1,33 @@
-import {set, get} from "lodash";
-
-export function parseInterface(interfaceToParse: string): { name: string, obj: { [index: string]: any }, unknown: { key: string, type: string }[] }[] {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.parseInterface = exports.pi = void 0;
+const lodash_1 = require("lodash");
+function pi(interfaceToParse) {
+    return parseInterface(interfaceToParse);
+}
+exports.pi = pi;
+function parseInterface(interfaceToParse) {
     const splited = interfaceToParse.split("interface");
     let jsons = [];
     splited.forEach((row) => {
         const splitedRow = row.split("\n");
         const name = splitedRow[0].split("{")[0].trim();
         const obj = {}, unknown = [];
-
         let fieldIsObj = false, objKeys = [];
         for (let field of splitedRow) {
             let [key, type] = field.split(":");
             if ((key && key.includes("}")) || (type && type.includes("}"))) {
                 if (key.includes("}[]")) {
                     const path = objKeys.join(".");
-                    set(obj, path, [get(obj, path)]);
+                    lodash_1.set(obj, path, [lodash_1.get(obj, path)]);
                 }
                 fieldIsObj = false;
                 objKeys.pop();
                 continue;
             }
-
             if (!key || !type) {
                 continue;
             }
-
             key = key.trim();
             key = key.split("?")[0];
             type = type.trim();
@@ -63,40 +66,43 @@ export function parseInterface(interfaceToParse: string): { name: string, obj: {
                     value = [];
                     break;
             }
-
             if (value !== null) {
                 if (fieldIsObj && type !== "{") {
                     const path = objKeys.join(".") + `.${key}`;
-                    set(obj, path, value);
-                } else if (objKeys.length > 0 && typeof value !== "object") {
+                    lodash_1.set(obj, path, value);
+                }
+                else if (objKeys.length > 0 && typeof value !== "object") {
                     const path = objKeys.join(".") + `.${key}`;
-                    set(obj, path, value);
-                } else if (objKeys.length > 0) {
+                    lodash_1.set(obj, path, value);
+                }
+                else if (objKeys.length > 0) {
                     const path = objKeys.join(".");
-                    set(obj, path, value);
-                } else {
+                    lodash_1.set(obj, path, value);
+                }
+                else {
                     obj[key] = value;
                 }
-            } else {
+            }
+            else {
                 const splitedType = type.split("|");
                 if (splitedType.length > 1) {
                     try {
                         obj[key] = JSON.parse(splitedType[0].trim());
-                    } catch (e) {
+                    }
+                    catch (e) {
                         obj[key] = splitedType[0].trim();
                     }
                 }
-
                 if (!obj[key]) {
-                    unknown.push({key, type})
+                    unknown.push({ key, type });
                 }
             }
         }
         if (Object.keys(obj).length !== 0 && obj.constructor === Object && name) {
-            jsons.push({obj, name, unknown});
+            jsons.push({ obj, name, unknown });
         }
-    })
-
+    });
     return jsons;
 }
-
+exports.parseInterface = parseInterface;
+//# sourceMappingURL=parseInterface.js.map

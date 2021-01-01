@@ -1,29 +1,34 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.parseInterface = void 0;
-const lodash_1 = require("lodash");
-function parseInterface(interfaceToParse) {
+import {set, get} from "lodash";
+
+export function pi(interfaceToParse: string): { name: string, obj: { [index: string]: any }, unknown: { key: string, type: string }[] }[] {
+    return parseInterface(interfaceToParse);
+}
+
+export function parseInterface(interfaceToParse: string): { name: string, obj: { [index: string]: any }, unknown: { key: string, type: string }[] }[] {
     const splited = interfaceToParse.split("interface");
     let jsons = [];
     splited.forEach((row) => {
         const splitedRow = row.split("\n");
         const name = splitedRow[0].split("{")[0].trim();
         const obj = {}, unknown = [];
+
         let fieldIsObj = false, objKeys = [];
         for (let field of splitedRow) {
             let [key, type] = field.split(":");
             if ((key && key.includes("}")) || (type && type.includes("}"))) {
                 if (key.includes("}[]")) {
                     const path = objKeys.join(".");
-                    lodash_1.set(obj, path, [lodash_1.get(obj, path)]);
+                    set(obj, path, [get(obj, path)]);
                 }
                 fieldIsObj = false;
                 objKeys.pop();
                 continue;
             }
+
             if (!key || !type) {
                 continue;
             }
+
             key = key.trim();
             key = key.split("?")[0];
             type = type.trim();
@@ -62,43 +67,40 @@ function parseInterface(interfaceToParse) {
                     value = [];
                     break;
             }
+
             if (value !== null) {
                 if (fieldIsObj && type !== "{") {
                     const path = objKeys.join(".") + `.${key}`;
-                    lodash_1.set(obj, path, value);
-                }
-                else if (objKeys.length > 0 && typeof value !== "object") {
+                    set(obj, path, value);
+                } else if (objKeys.length > 0 && typeof value !== "object") {
                     const path = objKeys.join(".") + `.${key}`;
-                    lodash_1.set(obj, path, value);
-                }
-                else if (objKeys.length > 0) {
+                    set(obj, path, value);
+                } else if (objKeys.length > 0) {
                     const path = objKeys.join(".");
-                    lodash_1.set(obj, path, value);
-                }
-                else {
+                    set(obj, path, value);
+                } else {
                     obj[key] = value;
                 }
-            }
-            else {
+            } else {
                 const splitedType = type.split("|");
                 if (splitedType.length > 1) {
                     try {
                         obj[key] = JSON.parse(splitedType[0].trim());
-                    }
-                    catch (e) {
+                    } catch (e) {
                         obj[key] = splitedType[0].trim();
                     }
                 }
+
                 if (!obj[key]) {
-                    unknown.push({ key, type });
+                    unknown.push({key, type})
                 }
             }
         }
         if (Object.keys(obj).length !== 0 && obj.constructor === Object && name) {
-            jsons.push({ obj, name, unknown });
+            jsons.push({obj, name, unknown});
         }
-    });
+    })
+
     return jsons;
 }
-exports.parseInterface = parseInterface;
-//# sourceMappingURL=parseInterface.js.map
+

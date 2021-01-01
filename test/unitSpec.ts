@@ -1,6 +1,6 @@
 import chai = require('chai');
 import sinonChai = require("sinon-chai");
-import {parseInterface} from "../lib/parseInterface";
+import {parseInterface} from "../parseInterface";
 
 let should = chai.should()
 chai.use(sinonChai);

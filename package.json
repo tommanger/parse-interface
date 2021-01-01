@@ -1,8 +1,8 @@
 {
   "name": "parse-interface",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Parse interface to json",
-  "main": "./lib/parseInterface.js",
+  "main": "parseInterface.js",
   "scripts": {
     "test": "mocha test/**/*.js --exit --timeout=20000 --forbid-only"
   },
