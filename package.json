@@ -1,10 +1,11 @@
 {
   "name": "parse-interface",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Parse interface to json",
   "main": "parseInterface.js",
   "scripts": {
-    "test": "mocha test/**/*.js --exit --timeout=20000 --forbid-only"
+    "test": "mocha test/**/*.js --exit --timeout=20000 --forbid-only",
+    "lint:fix": "tslint -p tsconfig.json --fix"
   },
   "keywords": [
     "interface",
@@ -27,7 +28,9 @@
     "chai": "4.2.0",
     "sinon-chai": "^3.5.0",
     "@types/mocha": "^8.0.3",
-    "mocha": "7.1.1"
+    "mocha": "7.1.1",
+    "tslint": "5.19.0",
+    "typescript": "3.6.2"
   },
   "dependencies": {
     "lodash": "^4.17.20"

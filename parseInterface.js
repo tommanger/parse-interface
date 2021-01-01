@@ -8,13 +8,14 @@ function pi(interfaceToParse) {
 exports.pi = pi;
 function parseInterface(interfaceToParse) {
     const splited = interfaceToParse.split("interface");
-    let jsons = [];
+    const jsons = [];
     splited.forEach((row) => {
         const splitedRow = row.split("\n");
         const name = splitedRow[0].split("{")[0].trim();
         const obj = {}, unknown = [];
-        let fieldIsObj = false, objKeys = [];
-        for (let field of splitedRow) {
+        let fieldIsObj = false;
+        const objKeys = [];
+        for (const field of splitedRow) {
             let [key, type] = field.split(":");
             if ((key && key.includes("}")) || (type && type.includes("}"))) {
                 if (key.includes("}[]")) {

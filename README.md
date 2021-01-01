@@ -23,7 +23,7 @@ const interfaceToParse: string = `
                     name: string;
                 }[];
             }`
-const parsed: any = parseInterface(interfaceToParse);
+const parseResult: any = parseInterface(interfaceToParse);
 console.log(parseResult);
 
 /* output: [
