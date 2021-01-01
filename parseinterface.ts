@@ -7,10 +7,10 @@ export interface IParseResult {
 }
 
 export function pi(interfaceToParse: string): IParseResult[] {
-	return parseInterface(interfaceToParse);
+	return parseinterface(interfaceToParse);
 }
 
-export function parseInterface(interfaceToParse: string): IParseResult[] {
+export function parseinterface(interfaceToParse: string): IParseResult[] {
 	const splited = interfaceToParse.split("interface");
 	const jsons = [];
 	splited.forEach((row) => {
