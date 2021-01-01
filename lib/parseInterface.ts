@@ -1,3 +1,5 @@
+import {set, get} from "lodash";
+
 export function parseInterface(interfaceToParse: string): { name: string, obj: { [index: string]: any }, unknown: { key: string, type: string }[] }[] {
     const splited = interfaceToParse.split("interface");
     let jsons = [];
@@ -6,15 +8,16 @@ export function parseInterface(interfaceToParse: string): { name: string, obj: {
         const name = splitedRow[0].split("{")[0].trim();
         const obj = {}, unknown = [];
 
-        let fieldIsObj = false, objKey = "";
+        let fieldIsObj = false, objKeys = [];
         for (let field of splitedRow) {
             let [key, type] = field.split(":");
             if ((key && key.includes("}")) || (type && type.includes("}"))) {
                 if (key.includes("}[]")) {
-                    obj[objKey] = [obj[objKey]];
+                    const path = objKeys.join(".");
+                    set(obj, path, [get(obj, path)]);
                 }
                 fieldIsObj = false;
-                objKey = "";
+                objKeys.pop();
                 continue;
             }
 
@@ -45,7 +48,7 @@ export function parseInterface(interfaceToParse: string): { name: string, obj: {
                     break;
                 case "{":
                     value = {};
-                    objKey = key;
+                    objKeys.push(key);
                     fieldIsObj = true;
                     break;
                 case "Partial<CSSStyleDeclaration>":
@@ -63,7 +66,14 @@ export function parseInterface(interfaceToParse: string): { name: string, obj: {
 
             if (value !== null) {
                 if (fieldIsObj && type !== "{") {
-                    obj[objKey][key] = value;
+                    const path = objKeys.join(".") + `.${key}`;
+                    set(obj, path, value);
+                } else if (objKeys.length > 0 && typeof value !== "object") {
+                    const path = objKeys.join(".") + `.${key}`;
+                    set(obj, path, value);
+                } else if (objKeys.length > 0) {
+                    const path = objKeys.join(".");
+                    set(obj, path, value);
                 } else {
                     obj[key] = value;
                 }
@@ -89,3 +99,4 @@ export function parseInterface(interfaceToParse: string): { name: string, obj: {
 
     return jsons;
 }
+

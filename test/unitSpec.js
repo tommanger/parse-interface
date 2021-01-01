@@ -15,6 +15,12 @@ describe('Parse interface', () => {
                 color: "red" | "blue",
                 details: {
                     address: string | number;
+                    extra: {
+                        names: string[];
+                        data: {
+                            colors: string[];
+                        }[];
+                    };
                 },
                 dates: number[];
                 children: {
@@ -67,6 +73,28 @@ describe('Parse interface', () => {
         parsed[0].obj.dates.should.be.instanceof(Array);
         parsed[0].obj.children.should.be.instanceof(Array);
         parsed[0].obj.children[0].name.should.be.eq("");
+    });
+    it("Should parse and get array and object in object in obj", () => {
+        const interfaceToParse = `
+         export default interface ITest {
+            details: {
+                data: {
+                    name: string;
+                    age: number;
+                };
+                address: string | number;
+                extra: {
+                    names: string[];
+                    data: {
+                       colors: string[];
+                    }[];
+                };
+            };
+        }`;
+        const parsed = parseInterface_1.parseInterface(interfaceToParse);
+        parsed[0].obj.details.data.name.should.be.eq("");
+        parsed[0].obj.details.address.should.be.eq("");
+        parsed[0].obj.details.extra.data[0].colors.should.be.instanceof(Array);
     });
 });
 //# sourceMappingURL=unitSpec.js.map

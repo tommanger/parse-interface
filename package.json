@@ -1,6 +1,6 @@
 {
   "name": "parse-interface",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Parse interface to json",
   "main": "./lib/parseInterface.js",
   "scripts": {
@@ -28,5 +28,8 @@
     "sinon-chai": "^3.5.0",
     "@types/mocha": "^8.0.3",
     "mocha": "7.1.1"
+  },
+  "dependencies": {
+    "lodash": "^4.17.20"
   }
 }
