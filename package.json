@@ -1,6 +1,6 @@
 {
   "name": "parse-interface",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Parse interface to json",
   "main": "parseInterface.js",
   "scripts": {

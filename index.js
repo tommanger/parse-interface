@@ -1,15 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.parseinterface = exports.pi = void 0;
+exports.parseInterface = exports.pi = void 0;
 const lodash_1 = require("lodash");
 function pi(interfaceToParse) {
-    return parseinterface(interfaceToParse);
+    return parseInterface(interfaceToParse);
 }
 exports.pi = pi;
-function parseinterface(interfaceToParse) {
+function parseInterface(interfaceToParse) {
     const splited = interfaceToParse.split("interface");
     const jsons = [];
-    splited.forEach((row) => {
+    for (const row of splited) {
         const splitedRow = row.split("\n");
         const name = splitedRow[0].split("{")[0].trim();
         const obj = {}, unknown = [];
@@ -102,8 +102,9 @@ function parseinterface(interfaceToParse) {
         if (Object.keys(obj).length !== 0 && obj.constructor === Object && name) {
             jsons.push({ obj, name, unknown });
         }
-    });
+    }
     return jsons;
 }
-exports.parseinterface = parseinterface;
-//# sourceMappingURL=parseInterface.js.map
+exports.parseInterface = parseInterface;
+return jsons;
+//# sourceMappingURL=index.js.map

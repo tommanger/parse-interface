@@ -7,13 +7,14 @@ export interface IParseResult {
 }
 
 export function pi(interfaceToParse: string): IParseResult[] {
-	return parseinterface(interfaceToParse);
+	return parseInterface(interfaceToParse);
 }
 
-export function parseinterface(interfaceToParse: string): IParseResult[] {
+export function parseInterface(interfaceToParse: string): IParseResult[] {
 	const splited = interfaceToParse.split("interface");
 	const jsons = [];
-	splited.forEach((row) => {
+
+	for (const row of splited) {
 		const splitedRow = row.split("\n");
 		const name = splitedRow[0].split("{")[0].trim();
 		const obj = {}, unknown = [];
@@ -107,7 +108,7 @@ export function parseinterface(interfaceToParse: string): IParseResult[] {
 		if (Object.keys(obj).length !== 0 && obj.constructor === Object && name) {
 			jsons.push({obj, name, unknown});
 		}
-	})
+	}
 
 	return jsons;
 }
