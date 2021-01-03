@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.parseInterface = exports.pi = void 0;
 const lodash_1 = require("lodash");
 function pi(interfaceToParse) {
     return parseInterface(interfaceToParse);
@@ -106,5 +105,4 @@ function parseInterface(interfaceToParse) {
     return jsons;
 }
 exports.parseInterface = parseInterface;
-return jsons;
 //# sourceMappingURL=index.js.map
