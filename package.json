@@ -20,6 +20,7 @@
   ],
   "author": "Tom Manger",
   "license": "ISC",
+  "homepage": "https://parse-interface.herokuapp.com",
   "repository": {
     "type": "git",
     "url": "https://github.com/tommanger/parse-interface"
