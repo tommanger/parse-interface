@@ -8,6 +8,11 @@ chai.use(sinonChai);
 describe("Parse interface", () => {
     it("Should parse", () => {
         const interfaceToParse = `
+			export default interface IOption {
+				name: string;
+				isActive: boolean;
+			}
+		
             export default interface ITest {
                 name: string;
                 date: number;
@@ -26,6 +31,7 @@ describe("Parse interface", () => {
                 children: {
                     name: string;
                 }[];
+                options: IOption[];
             }`;
         const parsed = parseInterface_1.parseInterface(interfaceToParse);
         parsed.should.be.instanceof(Array);
@@ -95,6 +101,29 @@ describe("Parse interface", () => {
         parsed[0].obj.details.data.name.should.be.eq("");
         parsed[0].obj.details.address.should.be.eq("");
         parsed[0].obj.details.extra.data[0].colors.should.be.instanceof(Array);
+    });
+    it("Should parse 2 interface and insert the obj from interface to the second interface", () => {
+        const interfaceToParse = `
+		export default interface IChild {
+         	name: string;
+         	age: number[];
+        }
+
+         export default interface ITest {
+         	object: IChild;
+         	objectInArray: IChild[];
+        }`;
+        const parsed = parseInterface_1.parseInterface(interfaceToParse);
+        parsed[0].obj.name.should.be.eq("");
+        parsed[0].obj.age.should.be.instanceof(Array);
+        parsed[0].obj.age[0].should.be.eq(0);
+        parsed[1].obj.object.name.should.be.eq("");
+        parsed[1].obj.object.age.should.be.instanceof(Array);
+        parsed[1].obj.object.age[0].should.be.eq(0);
+        parsed[1].obj.objectInArray.should.be.instanceof(Array);
+        parsed[1].obj.objectInArray[0].name.should.be.eq("");
+        parsed[1].obj.objectInArray[0].age.should.be.instanceof(Array);
+        parsed[1].obj.objectInArray[0].age[0].should.be.eq(0);
     });
 });
 //# sourceMappingURL=unitSpec.js.map

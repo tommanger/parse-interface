@@ -1,10 +1,15 @@
 # parse-interface
-- Visit our [Demo](https://parse-interface.herokuapp.com/) site
+ [Visit our demo site](https://parse-interface.herokuapp.com/) 
 
 ```javascript
 import {parseInterface} from "parse-interface";
 
 const interfaceToParse: string = `
+            export default interface IOption {
+				name: string;
+				isActive: boolean;
+			}
+		
             export default interface ITest {
                 name: string;
                 date: number;
@@ -23,11 +28,20 @@ const interfaceToParse: string = `
                 children: {
                     name: string;
                 }[];
+                options: IOption[];
             }`
 const parseResult: any = parseInterface(interfaceToParse);
 console.log(parseResult);
 
 /* output: [
+  {
+    "obj": {
+      "name": "",
+      "isActive": false
+    },
+    "name": "IOption",
+    "unknown": []
+  },
   {
     "obj": {
       "name": "",
@@ -37,18 +51,30 @@ console.log(parseResult);
       "details": {
         "address": "",
         "extra": {
-          "names": [],
+          "names": [
+            ""
+          ],
           "data": [
             {
-              "colors": []
+              "colors": [
+                ""
+              ]
             }
           ]
         }
       },
-      "dates": [],
+      "dates": [
+        0
+      ],
       "children": [
         {
           "name": ""
+        }
+      ],
+      "options": [
+        {
+          "name": "",
+          "isActive": false
         }
       ]
     },

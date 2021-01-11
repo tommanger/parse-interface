@@ -13,6 +13,7 @@ export function pi(interfaceToParse: string): IParseResult[] {
 export function parseInterface(interfaceToParse: string): IParseResult[] {
 	const splited = interfaceToParse.split("interface");
 	const jsons = [];
+	const jsonsByInterfaceName = {};
 
 	for (const row of splited) {
 		const splitedRow = row.split("\n");
@@ -40,23 +41,24 @@ export function parseInterface(interfaceToParse: string): IParseResult[] {
 
 			key = key.trim();
 			key = key.split("?")[0];
-			type = type.trim();
+			type = type.split(";")[0].trim();
+			const splitByArray = type.split("[");
+			const isArray = splitByArray.length > 1;
+			if (isArray) {
+				type = splitByArray[0];
+			}
+
 			let value = null;
 			switch (type) {
 				case "number":
-				case "number;":
 				case "number | string":
-				case "number | string;":
 					value = 0;
 					break;
 				case "string":
-				case "string;":
 				case "string | number":
-				case "string | number;":
 					value = "";
 					break;
 				case "boolean":
-				case "boolean;":
 					value = false;
 					break;
 				case "{":
@@ -70,23 +72,32 @@ export function parseInterface(interfaceToParse: string): IParseResult[] {
 					value = {};
 					break;
 				case "string[]":
-				case "string[];":
 				case "number[]":
-				case "number[];":
 					value = [];
 					break;
 			}
 
+			if (value === null) {
+				if (jsonsByInterfaceName[type]) {
+					value = jsonsByInterfaceName[type];
+				}
+			}
+
 			if (value !== null) {
+				isArray && (value = [value]);
+
 				if (fieldIsObj && type !== "{") {
 					const path = objKeys.join(".") + `.${key}`;
 					set(obj, path, value);
+
 				} else if (objKeys.length > 0 && typeof value !== "object") {
 					const path = objKeys.join(".") + `.${key}`;
 					set(obj, path, value);
+
 				} else if (objKeys.length > 0) {
 					const path = objKeys.join(".");
 					set(obj, path, value);
+
 				} else {
 					obj[key] = value;
 				}
@@ -107,6 +118,7 @@ export function parseInterface(interfaceToParse: string): IParseResult[] {
 		}
 		if (Object.keys(obj).length !== 0 && obj.constructor === Object && name) {
 			jsons.push({obj, name, unknown});
+			jsonsByInterfaceName[name] = obj;
 		}
 	}
 
